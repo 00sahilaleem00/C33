@@ -1,6 +1,7 @@
 const Engine = Matter.Engine;
 const World= Matter.World;
 const Bodies = Matter.Bodies;
+const Body = Matter.Body;
 const Constraint = Matter.Constraint;
 
 var engine, world;
@@ -93,7 +94,12 @@ function mouseReleased(){
 }
 
 function keyPressed(){
-    if(keyCode === 32){
+    if(keyCode === 32&&(bird.body.speed<2||(bird.body.position.x>1200||bird.body.position.x<0||bird.body.position.y>400||bird.body.position.x<0))){
+        Body.setPosition(bird.body,{x:200,y:50});
+        Body.setVelocity(bird.body,{x:0,y:0});
+        Body.setAngularVelocity(bird.body,0)
+        Body.setAngle(bird.body,2*PI);
+        bird.trajectory = [];
        slingshot.attach(bird.body);
     }
 }
@@ -105,7 +111,7 @@ async function getBackgroundImg(){
     var datetime = responseJSON.datetime;
     var hour = datetime.slice(11,13);
     
-    if(hour>=0600 && hour<=1900){
+    if(hour>=06 && hour<=19){
         bg = "sprites/bg1.png";
     }
     else{
